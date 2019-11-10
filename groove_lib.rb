@@ -1,0 +1,26 @@
+#groove library
+
+silentdisco = (ring :shh)
+halfsilentdisco = (ring :ta, :ta, :Di, :shh, :shh, :shh, :shh, :shh, :shh,:shh, :shh, :shh,:shh, :shh, :shh,:shh, :shh, :shh,:shh, :shh, :shh,:Ta)
+backbeat = (ring :Ta, :ta, :Ta, :Ta)
+poly2on3 = (ring :Ta, :Ki, :Di, :Da)
+take5 = (ring :ta, :Di, :ta, :Ki, :Da)
+straight8ths = (ring :Ta, :Di)
+groove1 = (ring :Di, :Di, :Ta, :ka, :Di, :mi, :Ta, :di, :ka, :Di, :Ta, :shh, :Di, :mi, :Ta, :Di)
+university = (ring :Du, :va, :ki, :da, :ma)
+triplettriplet = (ring :Du, :va, :ki, :Di, :da, :ma)
+tripletDi = (ring :Du, :va, :ki, :Di)
+tripletDimi = (ring :Du, :va, :ki, :Di, :mi)
+tresillo = (ring :Ta, :Ki, :Da, :Ta, :Di)
+sonClave = (ring :Ta, :mi, :Di, :Di, :Ta)
+rhumba = (ring :Ta, :mi, :mi, :Di, :Ta)
+clavebell = (ring :Ta, :Da, :Di, :Da, :Di, :Ta, :Da)
+march = (ring :Ta, :ta, :Ta, :ta)
+squarewaltzshh = (ring :Ta, :ka, :Di, :mi, :Du, :va, :ki, :De, :da, :ma, :shh, :shh )
+testshh = (ring :shh, :ta, :shh, :di, :da)
+impeachKick = (ring :Ta, :shh, :shh, :shh, :Di, :Ta, :shh, :shh, :ta)
+impeachSnare = (ring :shh, :shh, :Ta, :shh)
+impeachClosedHH = (ring :Ta, :ta, :Ta, :ta, :Di, :ta, :shh, :Ta, :ta)
+impeachOpenHH = (ring :shh,:shh,:shh,:shh,:shh,:Ta,:shh,:shh)
+
+#drumkit

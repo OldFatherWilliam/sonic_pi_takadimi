@@ -25,62 +25,76 @@ B = 1.0  # same as /4 time
 
 #meter rings (Capital is stress)
 simplemeter = (ring :Ta, :ta, :Ka, :ka, :Di, :di, :Mi, :mi)
-compoundmeter = (ring :Du, :du, :Va, :va, :Ki, :ki, :Di, :di, :Da, :da, :Ma, :ma)
+compoundmeter = (ring :Du, :du, :Va, :va, :Ki, :ki, :De, :de, :Da, :da, :Ma, :ma)
 
 #Feel
-Swing = 0.01
+Swing = 0.05
 
-#kludges
+#player routine
 unstressmeter = [:ta, :ka, :di, :mi, :va, :ki, :di, :da, :ma]
+define :groove_player do |tB, instrument|
+  sync tB
+  case
+  when tB == :shh then emphasis = 0
+  when (unstressmeter.include? tB) then emphasis = 0.75
+  else emphasis = 1.5
+  end
+  sample instrument, amp: emphasis * rrand(1-Swing, 1+ Swing)
+  print tB, emphasis
+end
+
 
 #metronome
 live_loop :shh do
-  with_bpm Tempo[:ballad] do
-    cue simplemeter.tick #Stress
-    cue simplemeter.tick #Weak
-    sleep B/4
+  with_bpm Tempo[:allegro] do
+    4.times do
+      cue simplemeter.tick #Stress
+      cue simplemeter.tick #Weak
+      sleep B/4 * rrand(1-Swing, 1+ Swing)
+    end
   end
 end
 
-live_loop :waltz do
+live_loop :waltztime do
   sync_bpm :shh
-  with_bpm Tempo[:dubstep] do
+  6.times do
     cue compoundmeter.tick #Stress
     cue compoundmeter.tick #Weak
-    sleep B/6
+    sleep B/6 * rrand(1-Swing, 1+ Swing)
   end
 end
 
 #groove library
 
 march = (ring :Ta, :ta, :Ta, :ta)
-silentdisco = (ring :shh)
-halfsilentdisco = (ring :ta, :ta, :Di, :shh, :shh, :shh, :shh, :shh, :shh,:shh, :shh, :shh,:shh, :shh, :shh,:shh, :shh, :shh,:shh, :shh, :shh,:Ta)
-backbeat = (ring :Ta, :ta, :Ta, :Ta)
-poly2on3 = (ring :Ta, :Ki, :Di, :Da)
-take5 = (ring :ta, :Di, :ta, :Ki, :Da)
-straight8ths = (ring :Ta, :Di)
-groove1 = (ring :Di, :Di, :Ta, :ka, :Di, :mi, :Ta, :di, :ka, :Di, :Ta, :shh, :Di, :mi, :Ta, :Di)
-university = (ring :Du, :va, :ki, :da, :ma)
-triplettriplet = (ring :Du, :va, :ki, :Di, :da, :ma)
-tripletDi = (ring :Du, :va, :ki, :Di)
-tripletDimi = (ring :Du, :va, :ki, :Di, :mi)
-tresillo = (ring :Ta, :Ki, :Da, :Ta, :Di)
-sonClave = (ring :Ta, :mi, :Di, :Di, :Ta)
-rhumba = (ring :Ta, :mi, :mi, :Di, :Ta)
-clavebell = (ring :Ta, :Da, :Di, :Da, :Di, :Ta, :Da)
+squarewaltzshh = (ring :Ta, :ka, :Di, :mi, :Du, :va, :ki, :De, :da, :ma, :shh, :shh )
+testshh = (ring :shh, :ta, :shh, :di, :da)
+impeachKick = (ring :Ta, :shh, :shh, :shh, :Di, :Ta, :shh, :shh, :ta)
+impeachSnare = (ring :shh, :shh, :Ta, :shh)
+impeachClosedHH = (ring :Ta, :ta, :Ta, :ta, :Di, :ta, :shh, :Ta, :ta)
+impeachOpenHH = (ring :shh,:shh,:shh,:shh,:shh,:Ta,:shh,:shh)
+
 
 #drumkit
-groove = clavebell
 live_loop :Track01 do
-  tB = groove.tick
-  sync tB
-  sleep rand(Swing)
-  case
-  when tB == :shh then emphasis = 0
-  when (unstressmeter.include? tB) then emphasis = 0.75
-  else emphasis = 1.5
-  end
-  sample :drum_cymbal_closed, amp: emphasis * rrand(1-Swing, 1+ Swing)
-  print tB, emphasis
+  tB = impeachKick.tick
+  instrument = :drum_bass_soft
+  groove_player tB, instrument
 end
+
+live_loop :Track02 do
+  tB = impeachSnare.tick
+  instrument = :drum_snare_hard
+  groove_player tB, instrument
+end
+live_loop :Track03 do
+  tB = impeachClosedHH.tick
+  instrument = :drum_cymbal_closed
+  groove_player tB, instrument
+end
+live_loop :Track04 do
+  tB = impeachOpenHH.tick
+  instrument = :drum_cymbal_open
+  groove_player tB, instrument
+end
+
