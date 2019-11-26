@@ -35,29 +35,69 @@ end
 
 #groove player
 define :groove_player do |gRing, instrument|
+  emphasis = 1.0
   gNote = gRing.tick
   case  gNote
   when :shh then
     sync :shh
     break
-  when :O then
+  when :O then # O is drum tab notation for accent
     emphasis = 1.5
     gNote = gRing.tick
-  else emphasis = 1.0
+    sync gNote
+  when :g then # O is drum tab notation for ghost note
+    emphasis = 0.15
+    gNote = gRing.tick
+    sync gNote
+  when :f then # O is drum tab notation for flam
+    emphasis = 0.15
+    gNote = gRing.tick
+    sync gNote
+    sample instrument, amp: emphasis
+    sleep beat_value*0.0625
+    emphasis = 1.0
+  when :d then # O is drum tab notation for drag
+    emphasis = 0.15
+    gNote = gRing.tick
+    sync gNote
+    2.times do
+      sample instrument, amp: emphasis
+      sleep beat_value*0.03125
+    end
+    emphasis = 1.0
+  when :b then # O is drum tab notation for soft roll
+    emphasis = 0.25
+    gNote = gRing.tick
+    sync gNote
+    3.times do
+      sample instrument, amp: emphasis
+      sleep beat_value*0.03125
+    end
+    emphasis = 1.0
+  when :B then # O is drum tab notation for hard roll
+    emphasis = 0.75
+    gNote = gRing.tick
+    sync gNote
+    2.times do
+      sample instrument, amp: emphasis
+      sleep beat_value*0.03
+      emphasis = 1.25
+      sample instrument, amp: emphasis
+      sleep beat_value*0.05
+      emphasis = 0.75
+    end
+  else sync gNote
   end
-  
-  sync gNote
-  
   sample instrument, amp: emphasis
   # print gNote, instrument, emphasis
 end
 
 #groove library
-backbeat = (ring :ta, :O, :ta, :ta, :O, :ta)
+backbeat = (ring :ta, :O, :ta, :g, :ta, :f, :ta, :d, :ta, :b, :ta, :B, :ta)
 poly2on3 = (ring :ta, :ki, :di, :da)
 
 live_loop :Track01 do
-  instrument = :drum_bass_hard
+  instrument = :drum_snare_soft
   gRing = backbeat
   groove_player gRing , instrument
 end
